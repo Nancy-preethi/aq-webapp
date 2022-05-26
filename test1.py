@@ -1,5 +1,4 @@
-import json
-
+from PIL import Image
 import streamlit as st
 import pandas as pd
 import requests
@@ -12,7 +11,7 @@ def get_data():
     return pd.read_csv(path)
 
 
-def get_str_value():
+def get_details(model_choice):
     url = "http://127.0.0.1:5000/Solve"
     headers = {'Content-Type': 'application/json'}
     proxies = {"http": None, "https": None}
@@ -20,23 +19,19 @@ def get_str_value():
     if response.ok:
         # response_data = response.text
         if response.text == "Solve":
-            for i in range(0,5):
-                url = "http://127.0.0.1:5000/Status"
-                response = requests.request("GET", url, headers=headers, proxies=proxies)
-                print(i)
-                placeholder = st.empty()
-                with placeholder.container():
-                    st.write("Running")
-                time.sleep(2)
-                placeholder.empty()
-        url = "http://127.0.0.1:5000/View"
+            my_bar = st.progress(0)
+
+            for percent_complete in range(100):
+                time.sleep(0.1)
+                my_bar.progress(percent_complete + 1)
+
+        url = "http://127.0.0.1:5000/View?model="+model_choice
         response = requests.request("GET", url, headers=headers, proxies=proxies)
-        print(response.text)
-        st.write(response.text)
+        return response.text
     else:
         print("Response not ok")
         print(response.text)
-        return
+        return response.text
 
 
 df = get_data()
@@ -46,4 +41,10 @@ make_choice = st.sidebar.selectbox('Select your vehicle:', makes)
 models = df[df['make'].isin([make_choice])]['model'].drop_duplicates()
 model_choice = st.sidebar.selectbox('', models)
 
-st.button("Get Value", key=None, help=None, on_click=get_str_value, args=None, kwargs=None, disabled=False)
+if st.sidebar.button("Submit"):
+    model_img_url = get_details(model_choice)
+    if model_img_url:
+        image = Image.open(model_img_url)
+        st.image(image)
+    else:
+        st.write("")
