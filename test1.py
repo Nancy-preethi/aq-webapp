@@ -1,13 +1,21 @@
+import json
+
 from PIL import Image
 import streamlit as st
 import pandas as pd
 import requests
 import time
-
+primaryColor = st.get_option("theme.primaryColor")
+s = f"""
+<style>
+div.stButton > button:first-child {{ border: 5px solid {primaryColor}; border-radius:20px 20px 20px 20px; background-color: red; textColor: white;}}
+<style>
+"""
+st.markdown(s, unsafe_allow_html=True)
 
 @st.cache
 def get_data():
-    path = r'C:\Development\Coding\Streamlit\aq-webapp\cars.csv'
+    path = r'.\cars.csv'
     return pd.read_csv(path)
 
 
@@ -42,9 +50,21 @@ models = df[df['make'].isin([make_choice])]['model'].drop_duplicates()
 model_choice = st.sidebar.selectbox('', models)
 
 if st.sidebar.button("Submit"):
-    model_img_url = get_details(model_choice)
-    if model_img_url:
-        image = Image.open(model_img_url)
-        st.image(image)
-    else:
-        st.write("")
+    model_details_json = get_details(model_choice)
+    # deserializing the data
+    model_details = json.loads(model_details_json)
+
+    print("Datatype after deserialization : "
+      + str(type(model_details)))
+    for m_name in model_details['model'].values():
+        model_name = m_name
+        st.write("SELECTED MODEL:",model_name)
+        # break;
+    for m_img_url in model_details['img_url'].values():
+        model_img_url = m_img_url
+
+        if model_img_url:
+            image = Image.open(model_img_url)
+            st.image(image)
+        else:
+            st.write("Image not found")

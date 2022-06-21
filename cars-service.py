@@ -38,10 +38,11 @@ def get_view():
     model_selected = parse_request_variable('model', 'Swift')
     print(model_selected)
     df = get_data()
-    # img_url = df[df['model'].isin([model_selected])]['img_url']
-    img_url = df[df.model.eq(model_selected)]['img_url']
-    print(img_url)
-    return img_url.values[0]
+    # img_url = df[df.model.eq(model_selected)]['img_url']
+    car = df[df.model.eq(model_selected)].to_json()
+    print(car)
+    return car
+    # return img_url.values[0]
 
 
 # driver function

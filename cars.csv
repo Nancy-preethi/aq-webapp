@@ -3,10 +3,10 @@ Toyoto,2008,Innova,
 Toyoto,2008,Etios,
 Toyoto,2010,Fortuner,
 Toyoto,2010,Crysta,
-Suzuki,2009,Alto,"C:/Development/Coding/Streamlit/aq-webapp/img/Alto.jpg"
-Suzuki,2009,Desire,"C:/Development/Coding/Streamlit/aq-webapp/img/Desire.jpg"
-Suzuki,2011,Swift,"C:/Development/Coding/Streamlit/aq-webapp/img/Swift.jpg"
-Suzuki,2011,Celerio,"C:/Development/Coding/Streamlit/aq-webapp/img/Celerio.jpg"
+Suzuki,2009,Alto,".\img\Alto.jpg"
+Suzuki,2009,Desire,".\img\Dezire.jpg"
+Suzuki,2011,Swift,".\img\Swift.jpg"
+Suzuki,2011,Celerio,".\img\Celerio.jpg"
 Tata,2012,Indica,
 Tata,2013,Nexon,
 Tata,2014,Sumo,
