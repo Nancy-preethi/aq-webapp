@@ -15,7 +15,7 @@ st.markdown(s, unsafe_allow_html=True)
 
 @st.cache
 def get_data():
-    path = r'.\cars.csv'
+    path = r'cars.csv'
     return pd.read_csv(path)
 
 
